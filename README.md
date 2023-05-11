@@ -1,4 +1,4 @@
-# Insumos_Tecnológicos_SA
+# Insumos_Tecnologicos_SA
 
 Para este proyecto seras el especialista en datos de una compañía que se dedica a la venta de insumos tecnológicos. A lo largo del proyecto te haras cargo de la información de la empresa y realizaras el proceso completo de captura, limpieza, análisis, diagnóstico, documentación, explotación y publicación de resultados.
 
