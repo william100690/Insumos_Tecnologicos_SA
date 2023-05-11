@@ -3,8 +3,7 @@
 Para este proyecto seras el especialista en datos de una compañía que se dedica a la venta de insumos tecnológicos. A lo largo del proyecto te haras cargo de la información de la empresa y realizaras el proceso completo de captura, limpieza, análisis, diagnóstico, documentación, explotación y publicación de resultados.
 
 ## Tarea 1 
-La Dirección de Ventas ha solicitado las siguientes tablas a Marketing con el fin de que sean integradas
-Es necesario realizar la captura de esos archivos e ingestarlos dentro de nuestra base de datos.
+La Dirección de Ventas ha solicitado las siguientes tablas a Marketing con el fin de que sean integradas. Es necesario realizar la captura de esos archivos e ingestarlos dentro de nuestra base de datos.
 
 * La tabla de puntos de venta propios, un Excel frecuentemente utilizado para contactar a cada sucursal, actualizada en 2021.
 * La tabla de empleados, un Excel mantenido por el personal administrativo de RRHH.
