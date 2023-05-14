@@ -78,6 +78,8 @@ fields terminated by ';' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
 ;
 
+drop table clientes;
+
 create table if not exists clientes (
 id int,
 provincia varchar(100),
@@ -85,12 +87,14 @@ nombre_apellido varchar(100),
 domicilio varchar(100),
 telefono varchar(100),
 edad varchar(100),
+localidad varchar(100),
 X varchar(100),
+Y varchar(100),
 fecha_alta date,
 usuario_alta varchar(100),
 fecha_ultima_modificacion date,
 usuario_ultima_modificacion varchar(100),
-marca_baja tinyint,
+marca_baja varchar(100),
 col10 varchar(5)
 );
 
