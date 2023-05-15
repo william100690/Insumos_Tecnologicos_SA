@@ -10,11 +10,11 @@ create database Insumos_Tecnologicos_SA;
 use Insumos_Tecnologicos_SA;
 
 create table if not exists gasto (
-idGasto int,
-idSucursal int,
-idTipoGasto int,
-fecha date,
-monto decimal(10,2)
+IdGasto int,
+IdSucursal int,
+IdTipoGasto int,
+Fecha date,
+Monto decimal(10,2)
 );
 
 
@@ -26,7 +26,7 @@ lines terminated by '\n' ignore 1 lines
 ;
 
 create table if not exists compra (
-idCompra int,
+id int,
 Fecha date,
 IdProducto int,
 Cantidad int,
@@ -38,12 +38,12 @@ load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tec
 into table compra
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
-(idCompra, Fecha, IdProducto, Cantidad, Precio, IdProveedor)
+(id, Fecha, IdProducto, Cantidad, Precio, IdProveedor)
 ;
 
 
 create table if not exists venta (
-idVenta int,
+id int,
 Fecha date,
 Fecha_Entrega date,
 IdCanal int,
@@ -60,6 +60,7 @@ load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tec
 into table venta
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
+
 
 create table if not exists sucursal (
 id int,
@@ -78,7 +79,6 @@ fields terminated by ';' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
 ;
 
-drop table clientes;
 
 create table if not exists clientes (
 id int,
@@ -106,7 +106,7 @@ lines terminated by '\n' ignore 1 lines;
 
 
 create table if not exists canal_venta (
-idcanal int,
+id int,
 canal varchar(50)
 );
 
@@ -118,7 +118,7 @@ lines terminated by '\n' ignore 1 lines;
 
 create table if not exists tipo_gasto
 (
-idtipogasto int,
+id int,
 descripcion varchar(100),
 monto_aproximado int
 );
@@ -131,7 +131,7 @@ lines terminated by '\n' ignore 1 lines;
 
 create table if not exists proveedores
 (
-idproveedor int,
+id int,
 nombre varchar(100),
 domicilio varchar(200),
 ciudad varchar(100),
@@ -145,12 +145,10 @@ into table proveedores
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
 
-drop table productos;
-select * from productos;
 
 create table if not exists productos
 (
-idproducto int,
+id int,
 concepto varchar(100),
 tipo varchar(50),
 precio varchar(100)
@@ -161,12 +159,10 @@ into table productos
 fields terminated by ',' ENCLOSED BY '' ESCAPED BY '\"'
 lines terminated by '\n' ignore 1 lines;
 
-drop table empleado;
-select * from empleado;
 
 create table if not exists empleado
 (
-idempleado int,
+id int,
 apellido varchar(100),
 nombre varchar(100),
 sucursal varchar(100),
@@ -179,5 +175,3 @@ load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tec
 into table empleado
 fields terminated by ',' enclosed by '' escaped by''
 lines terminated by '\n' ignore 1 lines;
-
-select * from empleado;
