@@ -9,7 +9,7 @@ create database Insumos_Tecnologicos_SA;
 
 use Insumos_Tecnologicos_SA;
 
-create table if not exists gasto (
+create table if not exists Gastos (
 IdGasto int,
 IdSucursal int,
 IdTipoGasto int,
@@ -25,7 +25,7 @@ lines terminated by '\n' ignore 1 lines
 (idGasto, idSucursal, idTipoGasto, fecha, monto)
 ;
 
-create table if not exists compra (
+create table if not exists Compras (
 id int,
 Fecha date,
 IdProducto int,
@@ -42,7 +42,7 @@ lines terminated by '\n' ignore 1 lines
 ;
 
 
-create table if not exists venta (
+create table if not exists Ventas (
 id int,
 Fecha date,
 Fecha_Entrega date,
@@ -62,7 +62,7 @@ fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists sucursal (
+create table if not exists Sucursales (
 id int,
 sucursal varchar (100),
 direccion varchar (100),
@@ -80,7 +80,7 @@ lines terminated by '\n' ignore 1 lines
 ;
 
 
-create table if not exists clientes (
+create table if not exists Clientes (
 id int,
 provincia varchar(100),
 nombre_apellido varchar(100),
@@ -105,7 +105,7 @@ fields terminated by ';' enclosed by '' escaped by '\"'
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists canal_venta (
+create table if not exists CanalesVentas (
 id int,
 canal varchar(50)
 );
@@ -116,7 +116,7 @@ fields terminated by ',' enclosed by ''
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists tipo_gasto
+create table if not exists TiposGastos
 (
 id int,
 descripcion varchar(100),
@@ -129,7 +129,7 @@ fields terminated by ',' enclosed by ''
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists proveedores
+create table if not exists Proveedores
 (
 id int,
 nombre varchar(100),
@@ -146,7 +146,7 @@ fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists productos
+create table if not exists Productos
 (
 id int,
 concepto varchar(100),
@@ -160,7 +160,7 @@ fields terminated by ',' ENCLOSED BY '' ESCAPED BY '\"'
 lines terminated by '\n' ignore 1 lines;
 
 
-create table if not exists empleado
+create table if not exists Empleados
 (
 id int,
 apellido varchar(100),
