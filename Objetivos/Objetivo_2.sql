@@ -154,3 +154,24 @@ SELECT * from Ventas; -- las columnas de Precio y Cantidad estan en varchar, hay
 
 
 
+-- 6) Crear una nueva tabla llamada calendario y poblar esta tabla con el procedimiento creado en la carpeta herramientas
+DROP TABLE IF EXISTS `calendario`;
+CREATE TABLE calendario (
+        id                      INTEGER PRIMARY KEY,  -- year*10000+month*100+day
+        fecha                 	DATE NOT NULL,
+        anio                    INTEGER NOT NULL,
+        mes                   	INTEGER NOT NULL, -- 1 to 12
+        dia                     INTEGER NOT NULL, -- 1 to 31
+        trimestre               INTEGER NOT NULL, -- 1 to 4
+        semana                  INTEGER NOT NULL, -- 1 to 52/53
+        dia_nombre              VARCHAR(9) NOT NULL, -- 'Monday', 'Tuesday'...
+        mes_nombre              VARCHAR(9) NOT NULL -- 'January', 'February'...
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+ALTER TABLE `calendario` CHANGE `id` `IdFecha` INT(11) NOT NULL;
+ALTER TABLE `calendario` ADD UNIQUE(`fecha`);
+
+SELECT * from calendario; -- revisamos la creación de la tabla
+
+CALL Llenar_dimension_calendario('2015-01-01','2021-01-01'); --poblamos la tabla con el procedimiento
+SELECT * FROM calendario; -- revisamos la tabla con los datos cargados
