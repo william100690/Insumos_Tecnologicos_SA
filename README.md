@@ -17,18 +17,12 @@ La Dirección de Ventas ha solicitado las siguientes tablas a Marketing con el f
 ## Objetivo 2
 Con el fín de asegurarse de que la calidad de la información con la que se va a trabajar sea la óptima, es necesario realizar un EDA (Exploratory Data Analysis) el cuál debe tomar en cuenta los siguientes puntos:
 
-1) ¿Qué tan actualizada está la información? ¿La forma en que se actualiza ó mantiene esa información se puede mejorar?
+1) ¿Qué tan actualizada está la información? 
 2) ¿Los datos están completos en todas las tablas?
 3) ¿Se conocen las fuentes de los datos?
 4) Al integrar éstos datos, es prudente que haya una normalización respecto de nombrar las tablas y sus campos.
-5) Es importante revisar la consistencia de los datos: 
-    - ¿Se pueden relacionar todas las tablas al modelo? 
-    - ¿Cuáles son las tablas de hechos y las tablas dimensionales o maestros? 
-    - ¿Podemos hacer esa separación en los datos que tenemos (tablas de hecho y dimensiones)? 
-    - ¿Hay claves duplicadas? 
-    - ¿Cuáles son variables cualitativas y cuáles son cuantitativas? 
-    - ¿Qué acciones podemos aplicar sobre las mismas?
-6) Poblar la tabla de calendario.
+5) Es importante revisar la consistencia y tipo de los datos 
+6) Crear una nueva tabla llamada calendario y poblar esta tabla
 
 
 ## Objetivo 3 
