@@ -14,12 +14,12 @@ IdGasto int,
 IdSucursal int,
 IdTipoGasto int,
 Fecha date,
-Monto decimal(10,2)
+MontoDecimal(10,2)
 );
 
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Gasto.csv'
-into table gasto
+into table Gastos
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
 (idGasto, idSucursal, idTipoGasto, fecha, monto)
@@ -35,7 +35,7 @@ IdProveedor int)
 ;
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Compra.csv'
-into table compra
+into table Compras
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
 (id, Fecha, IdProducto, Cantidad, Precio, IdProveedor)
@@ -45,7 +45,7 @@ lines terminated by '\n' ignore 1 lines
 create table if not exists Ventas (
 id int,
 Fecha date,
-Fecha_Entrega date,
+FechaEntrega date,
 IdCanal int,
 IdCliente int,
 IdSucursal int,
@@ -57,23 +57,23 @@ Cantidad varchar(50) -- lo ponemos en varchar pq hay datos inexistentes y nos ma
 
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Venta.csv'
-into table venta
+into table Ventas
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
 
 
 create table if not exists Sucursales (
 id int,
-sucursal varchar (100),
-direccion varchar (100),
-localidad varchar (100),
-provincia varchar (100),
-latitud varchar (100),
-longitud varchar (100)
+Sucursal varchar (100),
+Direccion varchar (100),
+Localidad varchar (100),
+Provincia varchar (100),
+Latitud varchar (100),
+Longitud varchar (100)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Sucursales.csv'
-into table sucursal
+into table Sucursales
 character set utf8mb4 -- utilizamos este set para poder añadir caracteres especiales como comas o ñ
 fields terminated by ';' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines
@@ -82,24 +82,24 @@ lines terminated by '\n' ignore 1 lines
 
 create table if not exists Clientes (
 id int,
-provincia varchar(100),
-nombre_apellido varchar(100),
-domicilio varchar(100),
-telefono varchar(100),
-edad varchar(100),
-localidad varchar(100),
+Provincia varchar(100),
+NombreApellido varchar(100),
+Domicilio varchar(100),
+Telefono varchar(100),
+Edad varchar(100),
+Localidad varchar(100),
 X varchar(100),
 Y varchar(100),
-fecha_alta date,
-usuario_alta varchar(100),
-fecha_ultima_modificacion date,
-usuario_ultima_modificacion varchar(100),
-marca_baja varchar(100),
-col10 varchar(5)
+FechaAlta date,
+UsuarioAlta varchar(100),
+FechaUltimaModificacion date,
+UsuarioUltimaModificacion varchar(100),
+MarcaBaja varchar(100),
+Col10 varchar(5)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Clientes.csv'
-into table clientes
+into table Clientes
 character set latin1 -- utilizamos este set para pasar a letras originales, ciertos caracteres especiales
 fields terminated by ';' enclosed by '' escaped by '\"'
 lines terminated by '\n' ignore 1 lines;
@@ -107,11 +107,11 @@ lines terminated by '\n' ignore 1 lines;
 
 create table if not exists CanalesVentas (
 id int,
-canal varchar(50)
+Canal varchar(50)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/CanalDeVenta.csv'
-into table canal_venta
+into table CanalesVentas
 fields terminated by ',' enclosed by ''
 lines terminated by '\n' ignore 1 lines;
 
@@ -119,12 +119,12 @@ lines terminated by '\n' ignore 1 lines;
 create table if not exists TiposGastos
 (
 id int,
-descripcion varchar(100),
-monto_aproximado int
+Descripcion varchar(100),
+MontoAproximado int
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/TiposDeGasto.csv'
-into table tipo_gasto
+into table TiposGastos
 fields terminated by ',' enclosed by ''
 lines terminated by '\n' ignore 1 lines;
 
@@ -132,16 +132,16 @@ lines terminated by '\n' ignore 1 lines;
 create table if not exists Proveedores
 (
 id int,
-nombre varchar(100),
-domicilio varchar(200),
-ciudad varchar(100),
-provincia varchar(50),
-pais varchar(100),
-departamento varchar(100)
+Nombre varchar(100),
+Domicilio varchar(200),
+Ciudad varchar(100),
+Provincia varchar(50),
+Pais varchar(100),
+Departamento varchar(100)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Proveedores.csv'
-into table proveedores
+into table Proveedores
 fields terminated by ',' enclosed by '' escaped by ''
 lines terminated by '\n' ignore 1 lines;
 
@@ -149,13 +149,13 @@ lines terminated by '\n' ignore 1 lines;
 create table if not exists Productos
 (
 id int,
-concepto varchar(100),
-tipo varchar(50),
-precio varchar(100)
+Concepto varchar(100),
+Tipo varchar(50),
+Precio varchar(100)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/PRODUCTOS.csv'
-into table productos
+into table Productos
 fields terminated by ',' ENCLOSED BY '' ESCAPED BY '\"'
 lines terminated by '\n' ignore 1 lines;
 
@@ -163,15 +163,15 @@ lines terminated by '\n' ignore 1 lines;
 create table if not exists Empleados
 (
 id int,
-apellido varchar(100),
-nombre varchar(100),
-sucursal varchar(100),
-sector varchar(100),
-cargo varchar(100),
-salario varchar(100)
+Apellido varchar(100),
+Nombre varchar(100),
+Sucursal varchar(100),
+Sector varchar(100),
+Cargo varchar(100),
+Salario varchar(100)
 );
 
 load data local infile 'C:/Users/willi/OneDrive/Escritorio/Proyectos/Insumos_Tecnologicos_SA/Datasets/Empleados.csv'
-into table empleado
+into table Empleados
 fields terminated by ',' enclosed by '' escaped by''
 lines terminated by '\n' ignore 1 lines;
