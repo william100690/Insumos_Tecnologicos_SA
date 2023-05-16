@@ -1,4 +1,7 @@
 use Insumos_Tecnologicos_SA;
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+
 DROP PROCEDURE IF EXISTS `Llenar_dimension_calendario`;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Llenar_dimension_calendario`(IN `startdate` DATE, IN `stopdate` DATE)
@@ -20,13 +23,3 @@ BEGIN
     END WHILE;
 END$$
 DELIMITER ;
-
-
-
-/*LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\Calendario.csv' 
-INTO TABLE calendario
-FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '' 
-LINES TERMINATED BY '\n' IGNORE 1 LINES;*/
-
-CALL Llenar_dimension_calendario('2015-01-01','2021-01-01');
-SELECT * FROM calendario;
