@@ -38,10 +38,15 @@ SELECT COUNT(*) as Total_datos,
        SUM(CASE WHEN tipo="" or tipo is null THEN 1 ELSE 0 END) as Nulos_tipo,
        SUM(CASE WHEN precio="" or precio = 0 or precio is null THEN 1 ELSE 0 END) as Nulos_precio
 FROM Productos;
--- Borrar los nulos
+-- Propuesta 1) Borrar los nulos
 DELETE from Productos where tipo = "" or tipo is null;
 DELETE from Productos where precio = "" or precio is null;
+DELETE from Productos where concepto = "" or concepto is null;
 
+-- Propuesta 2) Imputar valores faltantes
+UPDATE `Productos` SET tipo = 'Sin Dato' WHERE TRIM(tipo) = "" OR ISNULL(tipo);
+UPDATE `Productos` SET precio = 'Sin Dato' WHERE TRIM(precio) = "" OR ISNULL(precio);
+UPDATE `Productos` SET concepto = 'Sin Dato' WHERE TRIM(concepto) = "" OR ISNULL(concepto);
 
 SELECT * from Sucursales;
 SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
@@ -53,7 +58,16 @@ SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
     SUM(CASE WHEN latitud="" or latitud = 0 or latitud is null THEN 1 ELSE 0 END) as Nulos_latitud,
     SUM(CASE WHEN longitud="" or longitud = 0 or longitud is null THEN 1 ELSE 0 END) as Nulos_longitud
 FROM Sucursales;
-
+-- Propuesta 1) Borrar los nulos
+DELETE from Sucursales where direccion = "" or direccion is null;
+DELETE from Sucursales where Sucursal = "" or direccion is null;
+DELETE from Sucursales where Provincia = "" or Provincia is null;
+DELETE from Sucursales where Localidad = "" or Localidad is null;
+-- Propuesta 2) imputar los valores faltantes
+UPDATE `Sucursales` SET direccion = 'Sin Dato' WHERE TRIM(direccion) = "" OR ISNULL(direccion);
+UPDATE `Sucursales` SET Sucursal = 'Sin Dato' WHERE TRIM(Sucursal) = "" OR ISNULL(Sucursal);
+UPDATE `Sucursales` SET Provincia = 'Sin Dato' WHERE TRIM(Provincia) = "" OR ISNULL(Provincia);
+UPDATE `Sucursales` SET Localidad = 'Sin Dato' WHERE TRIM(Localidad) = "" OR ISNULL(Localidad);
 
 SELECT * from Proveedores;
 SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
@@ -65,8 +79,21 @@ SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
     SUM(CASE WHEN pais="" or pais is null THEN 1 ELSE 0 END) as Nulos_pais,
     SUM(CASE WHEN departamento="" or departamento is null THEN 1 ELSE 0 END) as Nulos_departamento
 FROM Proveedores;
--- Borrar los valores nulos
+-- Prouesta 1) Borrar los valores nulos
 DELETE from Proveedores where nombre = "" or nombre is null;
+DELETE from Proveedores where domicilio = "" or domicilio is null;
+DELETE from Proveedores where ciudad = "" or ciudad is null;
+DELETE from Proveedores where provincia = "" or provincia is null;
+DELETE from Proveedores where pais = "" or pais is null;
+DELETE from Proveedores where departamento = "" or departamento is null;
+
+-- Propuesta 2) Imputar valores faltantes
+UPDATE `Proveedores` SET nombre = 'Sin Dato' WHERE TRIM(nombre) = "" OR ISNULL(nombre);
+UPDATE `Proveedores` SET domicilio = 'Sin Dato' WHERE TRIM(domicilio) = "" OR ISNULL(domicilio);
+UPDATE `proveedor` SET ciudad = 'Sin Dato' WHERE TRIM(ciudad) = "" OR ISNULL(ciudad);
+UPDATE `proveedor` SET provincia = 'Sin Dato' WHERE TRIM(provincia) = "" OR ISNULL(provincia);
+UPDATE `proveedor` SET pais = 'Sin Dato' WHERE TRIM(pais) = "" OR ISNULL(pais);
+UPDATE `proveedor` SET departamento = 'Sin Dato' WHERE TRIM(departamento) = "" OR ISNULL(departamento);
 
 
 SELECT * from Empleados;
@@ -79,7 +106,19 @@ SELECT COUNT(*) as Total_datos,  -- observamos los datos faltantes
     sum(CASE WHEN cargo="" or cargo IS NULL THEN 1 ELSE 0 END) as Nulos_cargo,
     sum(CASE WHEN salario="" or salario IS NULL THEN 1 ELSE 0 END) as Nulos_salario
 FROM Empleados;
+-- Propuesta 1) borrar los valores nulos
+DELETE from Empleados where Apellido = "" or pais is null;
+DELETE from Empleados where nombre = "" or pais is null;
+DELETE from Empleados where Sucursal = "" or pais is null;
+DELETE from Empleados where sector = "" or pais is null;
+DELETE from Empleados where cargo = "" or pais is null;
 
+-- Propuesta 2) Imputar valores faltantes
+UPDATE `Empleados` SET Apellido = 'Sin Dato' WHERE TRIM(apellido) = "" OR ISNULL(apellido);
+UPDATE `Empleados` SET nombre = 'Sin Dato' WHERE TRIM(nombre) = "" OR ISNULL(nombre);
+UPDATE `empleado` SET Sucursal = 'Sin Dato' WHERE TRIM(Sucursal) = "" OR ISNULL(Sucursal);
+UPDATE `empleado` SET sector = 'Sin Dato' WHERE TRIM(sector) = "" OR ISNULL(sector);
+UPDATE `empleado` SET cargo = 'Sin Dato' WHERE TRIM(cargo) = "" OR ISNULL(cargo);
 
 SELECT * from Clientes;
 SELECT COUNT(*) as Total_datos,  -- observamos los datos faltantes
@@ -98,7 +137,7 @@ SELECT COUNT(*) as Total_datos,  -- observamos los datos faltantes
        sum(CASE WHEN usuario_ultima_modificacion="" or usuario_ultima_modificacion IS NULL THEN 1 ELSE 0 END) as Nulos_usuario_ultima_modificacion,
        sum(CASE WHEN marca_baja="" or marca_baja IS NULL THEN 1 ELSE 0 END) as Nulos_marca_baja
 FROM Clientes;
--- Borrar los valores nulos
+-- Propuesta 1) Borrar los valores nulos
 DELETE from Clientes where provincia="" or provincia is null;
 DELETE from Clientes where nombre_apellido="" or nombre_apellido is null;
 DELETE from Clientes where domicilio="" or domicilio is null;
@@ -106,6 +145,15 @@ DELETE from Clientes where telefono="" or telefono is null;
 DELETE from Clientes where localidad = "" or localidad is null;
 DELETE from Clientes where X = "" or X is null;
 DELETE from Clientes where Y = "" or Y is null;
+
+-- Propuesta 2) Imputar valores faltantes
+UPDATE `Clientes` SET provincia = 'Sin Dato' WHERE TRIM(provincia) = "" OR ISNULL(provincia);
+UPDATE `Clientes` SET nombre_apellido = 'Sin Dato' WHERE TRIM(nombre_apellido) = "" OR ISNULL(nombre_apellido);
+UPDATE `Clientes` SET domicilio = 'Sin Dato' WHERE TRIM(domicilio) = "" OR ISNULL(domicilio);
+UPDATE `Clientes` SET telefono = 'Sin Dato' WHERE TRIM(telefono) = "" OR ISNULL(telefono);
+UPDATE `Clientes` SET localidad = 'Sin Dato' WHERE TRIM(localidad) = "" OR ISNULL(localidad);
+UPDATE `Clientes` SET X = 'Sin Dato' WHERE TRIM(X) = "" OR ISNULL(X);
+UPDATE `Clientes` SET Y = 'Sin Dato' WHERE TRIM(Y) = "" OR ISNULL(Y);
 
 
 SELECT * from Ventas;
@@ -121,9 +169,13 @@ SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
     SUM(CASE WHEN Precio="" or Precio=0 or Precio=0 or Precio is null THEN 1 ELSE 0 END) as Nulos_Precio,
     SUM(CASE WHEN Cantidad="" or Cantidad=0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
 FROM Ventas;
--- Borrar los valores nulos
+-- Propuesta 1) Borrar los valores nulos
 DELETE from Ventas where precio = "" or precio = 0 or precio is null;
 DELETE from Ventas where Cantidad = "" or Cantidad = 0 or Cantidad is null;
+
+-- Propuesta 2) Imputar valores faltantes
+UPDATE `Ventas` SET precio = 0 WHERE TRIM(precio) = "" OR ISNULL(precio);
+UPDATE `Ventas` SET Cantidad = 0 WHERE TRIM(Cantidad) = "" OR ISNULL(Cantidad);
 
 
 -- 3) Modificar a letra capital los campos que contengan descripciones para todas las tablas.
@@ -163,20 +215,22 @@ UPDATE Clientes SET Y = '0' WHERE Y = ''; -- colocamos valor de cero donde hay e
 UPDATE Clientes SET X = '0' WHERE X = '';-- colocamos valor de cero donde hay espacios vacíos
 UPDATE `Clientes` SET Latitud = REPLACE(Y,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
 UPDATE `Clientes` SET Longitud = REPLACE(X,',','.'); -- pasamos los valores de la columna X a la columna Longitud
-ALTER TABLE `Clientes` DROP `Y`;
-ALTER TABLE `Clientes` DROP `X`;
+ALTER TABLE `Clientes` DROP `Y`; --eliminar la columna anterior
+ALTER TABLE `Clientes` DROP `X`; --eliminar la columna anterior
 
 
 SELECT * from Empleados; --Observamos que los datos de la columna salario esta en varchar hay que cambiarla
 ALTER TABLE `Empleados` ADD `Salario_` DECIMAL(10,2) DEFAULT '0' AFTER `salario`; -- agregamos la columna
 UPDATE Empleados SET Salario_ = REPLACE(salario,'"',''); -- pasamos los valores 
-ALTER TABLE `Empleados` drop `salario`;
+ALTER TABLE `Empleados` drop `salario`; --eliminar la columna anterior
+ALTER Table `Empleados` RENAME COLUMN Salario_ to Salario; -- renombrar la columna nueva
 
 
 SELECT * from Productos; --Observamos que los datos de la columna precio esta en varchar hay que cambiarlos
 ALTER Table `Productos` add `Precio_` DECIMAL(15,3) DEFAULT '0' after `precio`; -- agregamos la columna
-Update Productos set Precio_ = REPLACE(precio,',','.');
-ALTER table `Productos` drop `precio`;
+Update Productos set Precio_ = REPLACE(precio,',','.'); --pasar los valores a la columna nueva
+ALTER table `Productos` drop `precio`; --eliminar la columna anterior
+ALTER table `Productos` RENAME COLUMN Precio_ to Precio; --renombra la columna nueva
 
 
 SELECT * from Sucursales; -- observamos que las columnas latitud y longitud estan en varchar
@@ -184,17 +238,21 @@ ALTER TABLE `Sucursales` ADD `Latitud_` DECIMAL(13,10) DEFAULT '0' AFTER `latitu
 						ADD `Longitud_` DECIMAL(13,10) DEFAULT '0' AFTER `Latitud_`; -- Agregamos la columna Longitud
 UPDATE `Sucursales` SET Latitud_ = REPLACE(latitud,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
 UPDATE `Sucursales` SET Longitud_ = REPLACE(longitud,',','.'); -- pasamos los valores de la columna X a la columna Longitud
-ALTER TABLE `Sucursales` DROP `latitud`;
-ALTER TABLE `Sucursales` DROP `longitud`;
+ALTER TABLE `Sucursales` DROP `latitud`; --eliminar la columna anterior
+ALTER TABLE `Sucursales` DROP `longitud`; --eliminar la columna anterior
+ALTER table `Sucursales` RENAME COLUMN Latitud_ to Latitud; --renombrar la columna nueva
+ALTER table `Sucursales` RENAME COLUMN Longitud_ to Longitud; --renombrar la columma nueva
 
 
 SELECT * from Ventas; -- observamos que las columnas de Precio y Cantidad estan en varchar, hay que cambiarlas
 alter Table `Ventas`ADD `Precio_` DECIMAL(10,2) DEFAULT '0' after `Cantidad`,
                     ADD `Cantidad_` int(3) DEFAULT '0' after `Precio_`;
-UPDATE `Ventas` set Precio_ = REPLACE(Precio,"",'');
-UPDATE `Ventas` set Cantidad_ = REPLACE(Cantidad,"",'');
-ALTER table `Ventas` drop `Precio`;
-ALTER Table `Ventas` drop `Cantidad`;
+UPDATE `Ventas` set Precio_ = REPLACE(Precio,"",''); --pasamos los valores a la columna nueva
+UPDATE `Ventas` set Cantidad_ = REPLACE(Cantidad,"",''); --pasamos los valores a la columna nueva
+ALTER table `Ventas` drop `Precio`; --eliminar la columna anterior
+ALTER Table `Ventas` drop `Cantidad`; --eliminar la columna anterior
+ALTER table `Ventas` Rename COLUMN Precio_ to Precio; --renomnbrar la columna nueva
+ALTER TABLE `Ventas` Rename COLUMN Cantidad_ to Cantidad; --renombrar la columna nueva
 
 
 -- 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
