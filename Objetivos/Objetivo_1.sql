@@ -14,7 +14,7 @@ IdGasto int,
 IdSucursal int,
 IdTipoGasto int,
 Fecha date,
-MontoDecimal(10,2)
+Monto Decimal(10,2)
 );
 
 
