@@ -7,6 +7,8 @@ SELECT * from Compras;-- para esta tabla observmaos que se repite la fecha 2015-
 SELECT * from Gastos;-- para esta tabla observmaos que se repite la fecha 2015-01-01 
 SELECT * from Ventas; -- para esta tabla observamos que la fecha mas reciente es del 2019
 
+
+
 -- 2) ¿Los datos están completos en todas las tablas?
 SELECT * from Clientes;
 SELECT COUNT(*) as Total_datos,  -- observamos los datos faltantes
@@ -114,5 +116,41 @@ SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
     SUM(CASE WHEN Cantidad="" or Cantidad=0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
 FROM Ventas;
 
+
+
 --3) ¿Se conocen las fuentes de los datos?
 -- Las fuentes son las tablas de excel que nos facilitó el departamento de Marketing
+
+
+
+-- 4) Al integrar éstos datos, es prudente que haya una normalización respecto de nombrar las tablas y sus campos.
+SELECT * from Compras; --observmaos que el campo se llama id, hay que cambiarlo por Idcompra
+
+SELECT * from Ventas; --observmaos que el campo se llama id, hay que cambiarlo por IdVEnta
+
+SELECT * from Sucursales; --observmaos que el campo se llama id, hay que cambiarlo por IdSucursal
+
+SELECT * from Clientes; --observmaos que el campo se llama id, hay que cambiarlo por IdCliente
+
+SELECT * from CanalesVentas; --observmaos que el campo se llama id, hay que cambiarlo por IdCanalVenta
+
+SELECT * from TiposGastos; --observmaos que el campo se llama id, hay que cambiarlo por IdTiposGastos
+
+SELECT * from Proveedores; --observmaos que el campo se llama id, hay que cambiarlo por IdProveedor
+
+SELECT * from Productos; --observmaos que el campo se llama id, hay que cambiarlo por IdProducto
+
+SELECT * from Empleados; --observmaos que el campo se llama id, hay que cambiarlo por IdEmpleado
+
+
+
+--5) Es importante revisar la consistencia y tipo de los datos
+
+SELECT * from Clientes; --las columnas X y Y estan en tipo varchar hay que cambiarlos a tipo decimal
+SELECT * from Empleados; --la columna salario esta en varchar hay que cambiarla a tipo decimal
+SELECT * from Productos; --la columna precio esta en varchar hay que cambiarla a tipo decimal
+SELECT * from Sucursales; --las columnas latitud y longitud estan en varchar cambiarla a tipo decimal
+SELECT * from Ventas; -- las columnas de Precio y Cantidad estan en varchar, hay que cambiarlas a decimal y entera
+
+
+
