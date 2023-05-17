@@ -144,8 +144,7 @@ SELECT * from Empleados; --observmaos que el campo se llama id, hay que cambiarl
 
 
 
---5) Es importante revisar la consistencia y Tipo de los datos
-
+--5) Es importante revisar el tipo de datos
 SELECT * from Clientes; --las columnas X y Y estan en Tipo varchar hay que cambiarlos a Tipo decimal
 SELECT * from Empleados; --la columna Salario esta en varchar hay que cambiarla a Tipo decimal
 SELECT * from Productos; --la columna Precio esta en varchar hay que cambiarla a Tipo decimal
