@@ -21,7 +21,7 @@ Con el fín de asegurarse de que la calidad de la información con la que se va 
 2) ¿Los datos están completos en todas las tablas?
 3) ¿Se conocen las fuentes de los datos?
 4) Al integrar éstos datos, es prudente que haya una normalización respecto de nombrar las tablas y sus campos.
-5) Es importante revisar la consistencia y tipo de los datos 
+5) Es importante revisar el tipo de los datos 
 6) Crear una nueva tabla llamada calendario y poblar esta tabla
 
 
