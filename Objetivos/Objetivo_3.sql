@@ -2,6 +2,8 @@ use Insumos_Tecnologicos_SA;
 
 -- 1) Normalizar los nombres de los campos y colocar el Tipo de dato adecuado para cada uno en cada una de las tablas. 
 -- Descartar columnas que consideres que no tienen relevancia.
+
+-- 1ro Hacer la normalización de los nombres de los campos
 SELECT * from Compras;
 ALTER TABLE `Compras` CHANGE `id` `IdCompra` int(11) not null;
 
@@ -28,6 +30,57 @@ ALTER TABLE `Productos` CHANGE `id` `IdProducto` INT(11) not null;
 
 SELECT * from Empleados;
 ALTER TABLE `Empleados` CHANGE `id` `IdEmpleado` INT(11) not null;
+
+--  2do cambiar el tipo de dato
+SELECT * from Clientes; --observamos la tabla Clientes, las columnas X y Y estan en Tipo varchar hay que cambiarlos
+ALTER TABLE `Clientes` 	ADD `Latitud` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `Y`, -- Agregamos la columna Latitud
+						ADD `Longitud` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `Latitud`; -- Agregamos la columna Longitud
+
+UPDATE Clientes SET Y = '0' WHERE Y = ''; -- colocamos valor de cero donde hay espacios vacíos
+UPDATE Clientes SET X = '0' WHERE X = '';-- colocamos valor de cero donde hay espacios vacíos
+UPDATE `Clientes` SET Latitud = REPLACE(Y,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
+UPDATE `Clientes` SET Longitud = REPLACE(X,',','.'); -- pasamos los valores de la columna X a la columna Longitud
+ALTER TABLE `Clientes` DROP `Y`; --eliminar la columna anterior
+ALTER TABLE `Clientes` DROP `X`; --eliminar la columna anterior
+
+
+SELECT * from Empleados; --Observamos que los datos de la columna salario esta en varchar hay que cambiarla
+ALTER TABLE `Empleados` ADD `Salario_` DECIMAL(10,2) DEFAULT '0' AFTER `salario`; -- agregamos la columna
+UPDATE Empleados SET Salario_ = REPLACE(salario,'"',''); -- pasamos los valores 
+ALTER TABLE `Empleados` drop `salario`; --eliminar la columna anterior
+ALTER Table `Empleados` RENAME COLUMN Salario_ to Salario; -- renombrar la columna nueva
+
+
+SELECT * from Productos; --Observamos que los datos de la columna Precio esta en varchar hay que cambiarlos
+ALTER Table `Productos` add `Precio_` DECIMAL(15,3) not null DEFAULT '0' after `Precio`; -- agregamos la columna
+Update Productos set Precio_ = REPLACE(Precio,',','.') where Precio !="" ; --pasar los valores a la columna nueva
+ALTER table `Productos` drop `Precio`; --eliminar la columna anterior
+ALTER table `Productos` RENAME COLUMN Precio_ to Precio; --renombra la columna nueva
+
+
+SELECT * from Sucursales; -- observamos que las columnas latitud y longitud estan en varchar
+ALTER TABLE `Sucursales` ADD `Latitud_` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `latitud`, -- Agregamos la columna Latitud
+						ADD `Longitud_` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `Latitud_`; -- Agregamos la columna Longitud
+
+UPDATE `Sucursales` SET Latitud_ = REPLACE(latitud,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
+UPDATE `Sucursales` SET Longitud_ = REPLACE(longitud,',','.'); -- pasamos los valores de la columna X a la columna Longitud
+ALTER TABLE `Sucursales` DROP `latitud`; --eliminar la columna anterior
+ALTER TABLE `Sucursales` DROP `longitud`; --eliminar la columna anterior
+ALTER table `Sucursales` RENAME COLUMN Latitud_ to Latitud; --renombrar la columna nueva
+ALTER table `Sucursales` RENAME COLUMN Longitud_ to Longitud; --renombrar la columma nueva
+
+
+SELECT * from Ventas; -- observamos que las columnas de Precio y Cantidad estan en varchar, hay que cambiarlas
+alter Table `Ventas`ADD `Precio_` DECIMAL(10,2) DEFAULT '0' after `Cantidad`,
+                    ADD `Cantidad_` INT DEFAULT 0 after `Precio_`;
+UPDATE `Ventas` set Precio_ = REPLACE(Precio,'',"") where Precio !='' ; --pasamos los valores a la columna nueva
+UPDATE `Ventas` set Cantidad_ = REPLACE(Cantidad,'',"") where Cantidad !=0; --pasamos los valores a la columna nueva
+ALTER table `Ventas` drop `Precio`; --eliminar la columna anterior
+ALTER Table `Ventas` drop `Cantidad`; --eliminar la columna anterior
+ALTER table `Ventas` Rename COLUMN Precio_ to Precio; --renomnbrar la columna nueva
+ALTER TABLE `Ventas` Rename COLUMN Cantidad_ to Cantidad; --renombrar la columna nueva
+
+
 
 -- 2) Buscar valores faltantes y campos inconsistentes en las tablas Productos, Sucursales, Proveedores, Empleados, Clientes. 
 --y Ventas. De encontrarlos, deberás corregirlos o desestimarlos. Propone y realiza una acción correctiva sobre ese problema.
@@ -129,8 +182,8 @@ SELECT COUNT(*) as Total_datos,  -- observamos los datos faltantes
        sum(CASE WHEN Telefono="" or Telefono IS NULL THEN 1 ELSE 0 END) as Nulos_telefono,
        sum(CASE WHEN Edad="" or Edad = 0 or Edad IS NULL THEN 1 ELSE 0 END) as Nulos_edad,
        sum(CASE WHEN Localidad = "" or Localidad IS NULL THEN 1 ELSE 0 END) as Nulos_localidad,
-       sum(CASE WHEN X="" or X IS NULL THEN 1 ELSE 0 END) as Nulos_X,
-       sum(CASE WHEN Y="" or Y IS NULL THEN 1 ELSE 0 END) as Nulos_Y,
+       sum(CASE WHEN Latitud="" or Latitud IS NULL THEN 1 ELSE 0 END) as Nulos_Latitud,
+       sum(CASE WHEN Longitud="" or Longitud IS NULL THEN 1 ELSE 0 END) as Nulos_Longitud,
        sum(CASE WHEN trim(FechaAlta)="" or FechaAlta IS NULL THEN 1 ELSE 0 END) as Nulos_fecha_alta,
        sum(CASE WHEN UsuarioAlta="" or UsuarioAlta IS NULL THEN 1 ELSE 0 END) as Nulos_usuario_alta,
        sum(CASE WHEN trim(FechaUltimaModificacion)="" or FechaUltimaModificacion IS NULL THEN 1 ELSE 0 END) as Nulos_fecha_ultima_modificacion,
@@ -152,8 +205,6 @@ UPDATE `Clientes` SET NombreApellido = 'Sin Dato' WHERE TRIM(NombreApellido) = "
 UPDATE `Clientes` SET Domicilio = 'Sin Dato' WHERE TRIM(Domicilio) = "" OR ISNULL(Domicilio);
 UPDATE `Clientes` SET Telefono = 'Sin Dato' WHERE TRIM(Telefono) = "" OR ISNULL(Telefono);
 UPDATE `Clientes` SET Localidad = 'Sin Dato' WHERE TRIM(Localidad) = "" OR ISNULL(Localidad);
-UPDATE `Clientes` SET X = 'Sin Dato' WHERE TRIM(X) = "" OR ISNULL(X);
-UPDATE `Clientes` SET Y = 'Sin Dato' WHERE TRIM(Y) = "" OR ISNULL(Y);
 
 
 SELECT * from Ventas;
@@ -194,65 +245,15 @@ UPDATE Proveedores SET nombre = UC_Words(TRIM(nombre)), --aplicamos la función 
                     Domicilio = UC_Words(TRIM(Domicilio));
 SELECT * from Productos;
 UPDATE Productos SET Concepto = UC_Words(TRIM(Concepto)); --aplicamos la función a los campos necesarios
-SELECT * from Productos;
-UPDATE Productos SET Concepto = UC_Words(TRIM(Concepto)); --aplicamos la función a los campos necesarios
 SELECT * from Empleados;					
 UPDATE Empleados SET nombre = UC_Words(TRIM(nombre)), --aplicamos la función a los campos necesarios
                     apellido = UC_Words(TRIM(apellido));
 
 
 
--- 4) Chequear la consistencia de los campos latitud y longitud de la tabla Clientes
--- Chequear la consistencia del campo salario de la tabla Empleados
--- Chequear la consistencia del campo Precio de la tabla Productos
--- Chequear la consistencia de los campos latitud y longitud de la tabla Sucursales
--- Chequear la consistencia de los campos Precio y cantidad de la tabla ventas
-
-SELECT * from Clientes; --observamos la tabla Clientes, las columnas X y Y estan en Tipo varchar hay que cambiarlos
-ALTER TABLE `Clientes` 	ADD `Latitud` DECIMAL(13,10) DEFAULT '0' AFTER `Y`, -- Agregamos la columna Latitud
-						ADD `Longitud` DECIMAL(13,10) DEFAULT '0' AFTER `Latitud`; -- Agregamos la columna Longitud
-UPDATE Clientes SET Y = '0' WHERE Y = ''; -- colocamos valor de cero donde hay espacios vacíos
-UPDATE Clientes SET X = '0' WHERE X = '';-- colocamos valor de cero donde hay espacios vacíos
-UPDATE `Clientes` SET Latitud = REPLACE(Y,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
-UPDATE `Clientes` SET Longitud = REPLACE(X,',','.'); -- pasamos los valores de la columna X a la columna Longitud
-ALTER TABLE `Clientes` DROP `Y`; --eliminar la columna anterior
-ALTER TABLE `Clientes` DROP `X`; --eliminar la columna anterior
+-- 4) Chequear la consistencia de los campos Precio y cantidad de la tabla ventas
 
 
-SELECT * from Empleados; --Observamos que los datos de la columna salario esta en varchar hay que cambiarla
-ALTER TABLE `Empleados` ADD `Salario_` DECIMAL(10,2) DEFAULT '0' AFTER `salario`; -- agregamos la columna
-UPDATE Empleados SET Salario_ = REPLACE(salario,'"',''); -- pasamos los valores 
-ALTER TABLE `Empleados` drop `salario`; --eliminar la columna anterior
-ALTER Table `Empleados` RENAME COLUMN Salario_ to Salario; -- renombrar la columna nueva
-
-
-SELECT * from Productos; --Observamos que los datos de la columna Precio esta en varchar hay que cambiarlos
-ALTER Table `Productos` add `Precio_` DECIMAL(15,3) DEFAULT '0' after `Precio`; -- agregamos la columna
-Update Productos set Precio_ = REPLACE(Precio,',','.'); --pasar los valores a la columna nueva
-ALTER table `Productos` drop `Precio`; --eliminar la columna anterior
-ALTER table `Productos` RENAME COLUMN Precio_ to Precio; --renombra la columna nueva
-
-
-SELECT * from Sucursales; -- observamos que las columnas latitud y longitud estan en varchar
-ALTER TABLE `Sucursales` ADD `Latitud_` DECIMAL(13,10) DEFAULT '0' AFTER `latitud`, -- Agregamos la columna Latitud
-						ADD `Longitud_` DECIMAL(13,10) DEFAULT '0' AFTER `Latitud_`; -- Agregamos la columna Longitud
-UPDATE `Sucursales` SET Latitud_ = REPLACE(latitud,',','.'); -- pasamos los valores de la columna Y a la columna Latitud
-UPDATE `Sucursales` SET Longitud_ = REPLACE(longitud,',','.'); -- pasamos los valores de la columna X a la columna Longitud
-ALTER TABLE `Sucursales` DROP `latitud`; --eliminar la columna anterior
-ALTER TABLE `Sucursales` DROP `longitud`; --eliminar la columna anterior
-ALTER table `Sucursales` RENAME COLUMN Latitud_ to Latitud; --renombrar la columna nueva
-ALTER table `Sucursales` RENAME COLUMN Longitud_ to Longitud; --renombrar la columma nueva
-
-
-SELECT * from Ventas; -- observamos que las columnas de Precio y Cantidad estan en varchar, hay que cambiarlas
-alter Table `Ventas`ADD `Precio_` DECIMAL(10,2) DEFAULT '0' after `Cantidad`,
-                    ADD `Cantidad_` int(3) DEFAULT '0' after `Precio_`;
-UPDATE `Ventas` set Precio_ = REPLACE(Precio,"",''); --pasamos los valores a la columna nueva
-UPDATE `Ventas` set Cantidad_ = REPLACE(Cantidad,"",''); --pasamos los valores a la columna nueva
-ALTER table `Ventas` drop `Precio`; --eliminar la columna anterior
-ALTER Table `Ventas` drop `Cantidad`; --eliminar la columna anterior
-ALTER table `Ventas` Rename COLUMN Precio_ to Precio; --renomnbrar la columna nueva
-ALTER TABLE `Ventas` Rename COLUMN Cantidad_ to Cantidad; --renombrar la columna nueva
 
 
 -- 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
