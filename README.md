@@ -33,7 +33,6 @@ Realizar una liempieza y revisar los valores faltantes tomando en cuenta lo sigu
 3) Modificar a letra capital los campos que contengan descripciones para todas las tablas.
 4) Chequear la consistencia de los campos precio y cantidad de la tabla de ventas. Precio coherentes o no, precio con zero
 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
-
 6) Realizar la siguiente NORMALIZACIÓN:
     - Generar dos nuevas tablas a partir de la tabla 'empelado' que contengan las entidades Cargo y Sector.
     - Generar una nueva tabla a partir de la tabla 'producto' que contenga la entidad Tipo de Producto.
