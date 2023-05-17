@@ -42,7 +42,7 @@ UPDATE `Clientes` SET Latitud = REPLACE(Y,',','.'); -- pasamos los valores de la
 UPDATE `Clientes` SET Longitud = REPLACE(X,',','.'); -- pasamos los valores de la columna X a la columna Longitud
 ALTER TABLE `Clientes` DROP `Y`; --eliminar la columna anterior
 ALTER TABLE `Clientes` DROP `X`; --eliminar la columna anterior
-
+ALTER TABLE `Clientes` DROP `col10`; -- eliminar la columna sin uso
 
 SELECT * from Empleados; --Observamos que los datos de la columna salario esta en varchar hay que cambiarla
 ALTER TABLE `Empleados` ADD `Salario_` DECIMAL(10,2) DEFAULT '0' AFTER `salario`; -- agregamos la columna
@@ -70,15 +70,11 @@ ALTER table `Sucursales` RENAME COLUMN Latitud_ to Latitud; --renombrar la colum
 ALTER table `Sucursales` RENAME COLUMN Longitud_ to Longitud; --renombrar la columma nueva
 
 
-SELECT * from Ventas; -- observamos que las columnas de Precio y Cantidad estan en varchar, hay que cambiarlas
-alter Table `Ventas`ADD `Precio_` DECIMAL(10,2) DEFAULT '0' after `Cantidad`,
-                    ADD `Cantidad_` INT DEFAULT 0 after `Precio_`;
-UPDATE `Ventas` set Precio_ = REPLACE(Precio,'',"") where Precio !='' ; --pasamos los valores a la columna nueva
-UPDATE `Ventas` set Cantidad_ = REPLACE(Cantidad,'',"") where Cantidad !=0; --pasamos los valores a la columna nueva
-ALTER table `Ventas` drop `Precio`; --eliminar la columna anterior
-ALTER Table `Ventas` drop `Cantidad`; --eliminar la columna anterior
-ALTER table `Ventas` Rename COLUMN Precio_ to Precio; --renomnbrar la columna nueva
-ALTER TABLE `Ventas` Rename COLUMN Cantidad_ to Cantidad; --renombrar la columna nueva
+SELECT * from Ventas; -- observamos que las columnas de Precio y Cantidad estan en varchar
+-- Cambiar la columna Precio, la columa cantidad la cambiaremos mas adelante
+UPDATE `Ventas` set `Precio` = 0 WHERE `Precio` = '';
+ALTER TABLE `Ventas` CHANGE `Precio` `Precio` DECIMAL(15,3) NOT NULL DEFAULT '0';
+
 
 
 
@@ -218,15 +214,10 @@ SELECT COUNT(*) as total_datos,  -- observamos los datos faltantes
     SUM(CASE WHEN IdEmpleado="" or IdEmpleado=0 or IdEmpleado is null THEN 1 ELSE 0 END) as Nulos_IdEmpleado,
     SUM(CASE WHEN IdProducto="" or IdProducto=0 or IdProducto is null THEN 1 ELSE 0 END) as Nulos_IdProducto,
     SUM(CASE WHEN Precio="" or Precio is null THEN 1 ELSE 0 END) as Nulos_Precio,
-    SUM(CASE WHEN Cantidad="" or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
+    SUM(CASE WHEN Cantidad="" or Cantidad = 0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
 FROM Ventas;
--- Propuesta 1) Borrar los valores nulos
-DELETE from Ventas where Precio = "" or Precio = 0 or Precio is null;
-DELETE from Ventas where Cantidad = "" or Cantidad = 0 or Cantidad is null;
 
--- Propuesta 2) Imputar valores faltantes
-UPDATE `Ventas` SET Precio = 'Sin Dato' WHERE TRIM(Precio) = "" OR ISNULL(Precio);
-UPDATE `Ventas` SET Cantidad = 'Sin Dato' WHERE TRIM(Cantidad) = "" OR ISNULL(Cantidad);
+-- La tabla Ventas se va a trabajar de otra forma, por lo que NO se hace ninguna propuestas
 
 
 -- 3) Modificar a letra capital los campos que contengan descripciones para todas las tablas.
@@ -252,8 +243,60 @@ UPDATE Empleados SET nombre = UC_Words(TRIM(nombre)), --aplicamos la función a 
 
 
 -- 4) Chequear la consistencia de los campos Precio y cantidad de la tabla ventas
+SELECT * from Ventas where Precio ='' or Cantidad ='';  -- buscamos los valores faltantes de Precio y Cantidad
+SELECT COUNT(*) from Ventas; -- buscamos los valores totales de las filas
 
+SELECT COUNT(*) as total_datos,  -- armamos una tabla para mostrar los valores faltantes
+    SUM(CASE WHEN Precio="" or Precio is null THEN 1 ELSE 0 END) as Nulos_Precio,
+    SUM(CASE WHEN Cantidad=0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
+FROM Ventas;
 
+-- Como conocemos el IdProducto tanto de la tabla Ventas como de la tabla Productos
+-- Actualizamos/Cargamos el Precio en la tabla Ventas desde la tabla Productos donde el Precio = 0
+-- Haciendo un UPDATE junto con un JOIN
+UPDATE Ventas V JOIN Productos P ON (V.IdProducto = P.IdProducto) 
+SET V.Precio = P.Precio
+WHERE V.Precio = 0;
 
+SELECT COUNT(*) as total_datos,  -- Volvemos a mostrar la tabla y observamos como los valores Nulos_Precio son 0
+    SUM(CASE WHEN Precio="" or Precio is null THEN 1 ELSE 0 END) as Nulos_Precio,
+    SUM(CASE WHEN Cantidad="" or Cantidad = 0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
+FROM Ventas;
+
+-- Crear una tabla auxiliar donde se guardaran los registros son problemas
+DROP TABLE if EXISTS AuxVenta;
+CREATE table AuxVenta (
+    IdVenta int,
+    Fecha date NOT NULL,
+    FechaEntrega date NOT NULL,
+    IdCanal int,
+    IdCliente int,
+    IdSucursal int,
+    IdEmpleado int,
+    IdProducto int,
+    Precio float,
+    Cantidad int,
+    Motivo int
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+UPDATE Ventas SET Cantidad = REPLACE(Cantidad, '\r', '');
+
+-- Insertar los registros a la nueva tabla AuxVenta desde la tabla Ventas, donde Cantidad este vacío o sea Nulo
+INSERT INTO AuxVenta (IdVenta, Fecha, FechaEntrega, IdCanal, IdCliente, IdSucursal, IdEmpleado, IdProducto, Precio, Cantidad, Motivo)
+SELECT IdVenta, Fecha, FechaEntrega, IdCanal, IdCliente, IdSucursal, IdEmpleado, IdProducto, Precio, 0, 1
+FROM Ventas WHERE Cantidad = '' or Cantidad = 0 or Cantidad is null;
+SELECT * from AuxVenta; -- Revisamos la tabla AuxVenta para observar si se guardaron los registros
+
+-- Cargar un 1 donde la Cantidad este vacía o sea Nula, en la tabla Ventas
+UPDATE Ventas SET Cantidad = '1' WHERE Cantidad = '' or Cantidad is null;
+-- Cambiar a 
+ALTER TABLE `Ventas` CHANGE `Cantidad` `Cantidad` INTEGER NOT NULL DEFAULT '0';
+
+SELECT COUNT(*) as total_datos,  -- Volvemos a mostrar la tabla y observamos que ya no hay ningún valor nulo
+    SUM(CASE WHEN Precio="" or Precio is null THEN 1 ELSE 0 END) as Nulos_Precio,
+    SUM(CASE WHEN Cantidad="" or Cantidad = 0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
+FROM Ventas;
+
+SELECT * from Clientes;
 
 -- 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
