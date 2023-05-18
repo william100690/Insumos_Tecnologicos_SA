@@ -37,3 +37,12 @@ Realizar una liempieza y revisar los valores faltantes tomando en cuenta lo sigu
 6) Realizar la siguiente NORMALIZACIÓN:
     - Generar dos nuevas tablas a partir de la tabla 'empelado' que contengan las entidades Cargo y Sector.
     - Generar una nueva tabla a partir de la tabla 'producto' que contenga la entidad Tipo de Producto.
+
+
+## Objetivo 4 
+### Evaluar la posibilidad de la apertura de una nueva sucursal.
+
+1) Es necesario contar con una tabla de localidades del país y mejorar nuestros datos. 
+A partir de los datos en las tablas cliente, sucursal y proveedor hay que generar una tabla definitiva de Localidades y Provincias.
+Utilizando la nueva tabla de Localidades controlar y corregir (Normalizar) los campos Localidad y Provincia de las tablas cliente, sucursal y proveedor.
+2) Es necesario discretizar el campo edad en la tabla cliente.
