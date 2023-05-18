@@ -242,7 +242,7 @@ UPDATE Empleados SET nombre = UC_Words(TRIM(nombre)), --aplicamos la función a 
 
 
 
--- 4) Chequear la consistencia de los campos Precio y cantidad de la tabla ventas
+-- 4) Chequear la consistencia de los campos Precio y cantidad de la tabla Ventas
 SELECT * from Ventas where Precio ='' or Cantidad ='';  -- buscamos los valores faltantes de Precio y Cantidad
 SELECT COUNT(*) from Ventas; -- buscamos los valores totales de las filas
 
@@ -287,9 +287,9 @@ SELECT IdVenta, Fecha, FechaEntrega, IdCanal, IdCliente, IdSucursal, IdEmpleado,
 FROM Ventas WHERE Cantidad = '' or Cantidad = 0 or Cantidad is null;
 SELECT * from AuxVenta; -- Revisamos la tabla AuxVenta para observar si se guardaron los registros
 
--- Cargar un 1 donde la Cantidad este vacía o sea Nula, en la tabla Ventas
+-- Cargar un '1' donde la Cantidad este vacía o sea Nula, en la tabla Ventas
 UPDATE Ventas SET Cantidad = '1' WHERE Cantidad = '' or Cantidad is null;
--- Cambiar a 
+-- Cambiar el dato a tipo Int
 ALTER TABLE `Ventas` CHANGE `Cantidad` `Cantidad` INTEGER NOT NULL DEFAULT '0';
 
 SELECT COUNT(*) as total_datos,  -- Volvemos a mostrar la tabla y observamos que ya no hay ningún valor nulo
@@ -297,6 +297,6 @@ SELECT COUNT(*) as total_datos,  -- Volvemos a mostrar la tabla y observamos que
     SUM(CASE WHEN Cantidad="" or Cantidad = 0 or Cantidad is null THEN 1 ELSE 0 END) as Nulos_Cantidad
 FROM Ventas;
 
-SELECT * from Clientes;
+SELECT * from Ventas; --Reviamos los cambios en las tablas
 
 -- 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
