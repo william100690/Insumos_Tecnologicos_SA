@@ -1,4 +1,4 @@
-use Insumos_Tecnologicos_SA;
+use insumos_tecnologicos_sa;
 
 -- 1) Normalizar los nombres de los campos y colocar el Tipo de dato adecuado para cada uno en cada una de las tablas. 
 -- Descartar columnas que consideres que no tienen relevancia.
@@ -300,3 +300,111 @@ FROM Ventas;
 SELECT * from Ventas; --Reviamos los cambios en las tablas
 
 -- 5) Chequear que no haya claves duplicadas, y de encontrarla en alguna de las tablas, proponer una solución.
+SELECT IdCliente, COUNT(*) FROM Clientes GROUP BY IdCliente HAVING COUNT(*) > 1;
+SELECT IdSucursal, COUNT(*) FROM Sucursales GROUP BY IdSucursal HAVING COUNT(*) > 1;
+SELECT IdEmpleado, COUNT(*) FROM Empleados GROUP BY IdEmpleado HAVING COUNT(*) > 1; -- esta tabla tiene valores duplicados
+SELECT IdProveedor, COUNT(*) FROM Proveedores GROUP BY IdProveedor HAVING COUNT(*) > 1;
+SELECT IdProducto, COUNT(*) FROM Productos GROUP BY IdProducto HAVING COUNT(*) > 1;
+
+-- Como la tabla Empleados tiene valores duplicados, proponer la creación de IdEmpleados Únicos
+-- Para la creación de Id Únicos hacemos el sig proceso
+SELECT E.*, S.IdSucursal FROM Empleados E --Unir la IdSucursal a tabla empleados
+JOIN Sucursales S ON (E.Sucursal = S.Sucursal); 
+
+select distinct Sucursal from Empleados -- Obtener las Sucursales de empleados que no esten en la tabla Sucursales
+where Sucursal NOT IN (select Sucursal from Sucursales);
+
+UPDATE Empleados SET Sucursal = 'Mendoza1' WHERE Sucursal = 'Mendoza 1'; --creación correcta de clave
+UPDATE Empleados SET Sucursal = 'Mendoza2' WHERE Sucursal = 'Mendoza 2'; --creación correcta de clave
+UPDATE Empleados SET Sucursal = 'Córdoba Quiroz' WHERE Sucursal = 'Cordoba Quiroz'; --creación correcta de clave
+
+-- Agregar una nueva columna llamada IdSucursal a la table Empleados
+ALTER TABLE `Empleados` ADD `IdSucursal` INT NULL DEFAULT '0' AFTER `Sucursal`;
+-- Llenar la columna IdSucursal con los datos de la tabla Sucursales haciendo un JOIN
+UPDATE Empleados E JOIN Sucursales S ON (E.Sucursal = S.Sucursal) 
+SET E.IdSucursal = S.IdSucursal;
+
+ALTER TABLE `Empleados` DROP `Sucursal`; -- Eliminar la columna Sucursal de la tabla Empleados
+
+
+-- Agregar una nueva columna llamada CodigoEmpleado a la tabla Empleados
+ALTER TABLE `Empleados` ADD `CodigoEmpleado` INT NULL DEFAULT '0' AFTER `IdEmpleado`;
+
+-- Pasar los datos de la columna IdEmpleado a CodigoEmpleado
+UPDATE Empleados SET CodigoEmpleado = IdEmpleado; 
+
+-- Modificar los datos de la columna IdEmpleado  
+UPDATE Empleados SET IdEmpleado = (IdSucursal * 1000000) + CodigoEmpleado;
+
+-- Revisar si todavía existen valores duplicados
+SELECT * from Empleados; -- Obsrevar los nuevos IdEmpleado únicos
+SELECT IdEmpleado, COUNT(*) FROM Empleados GROUP BY IdEmpleado HAVING COUNT(*) > 1; -- obversamos que son 0 valores duplicados
+
+
+-- 6) Realizar la siguiente NORMALIZACIÓN:
+
+--NORMALIZAR la Tabla Empleado
+-- Generar dos nuevas tablas a partir de la tabla 'empelado' que contengan las entidades Cargo y Sector.
+DROP TABLE IF EXISTS `Cargo`;
+CREATE TABLE IF NOT EXISTS `Cargo` (
+  `IdCargo` integer NOT NULL AUTO_INCREMENT,
+  `Cargo` varchar(50) NOT NULL,
+  PRIMARY KEY (`IdCargo`)
+); 
+
+DROP TABLE IF EXISTS `Sector`;
+CREATE TABLE IF NOT EXISTS `Sector` (
+  `IdSector` integer NOT NULL AUTO_INCREMENT,
+  `Sector` varchar(50) NOT NULL,
+  PRIMARY KEY (`IdSector`)
+);
+
+-- Agregar datos desde la tabla Empleados a las tablas recien creadas
+INSERT INTO Cargo (Cargo) SELECT DISTINCT Cargo FROM Empleados ORDER BY 1;
+INSERT INTO Sector (Sector) SELECT DISTINCT Sector FROM Empleados ORDER BY 1;
+
+-- Observar como se cargaron los datos a la nuevas tablas
+select * from cargo;
+select * from sector;
+
+-- Agregar 2 columnas nuevas de nombre IdSucursal y IdSector a la tabla Empleados
+ALTER TABLE `Empleados` ADD `IdSector` INT NOT NULL DEFAULT '0' AFTER `IdSucursal`, 
+						ADD `IdCargo` INT NOT NULL DEFAULT '0' AFTER `IdSector`;
+
+
+-- Cargar datos a las columnas nuevas desde las tablas recién generadas (Cargo, Sector)
+UPDATE Empleados E JOIN Cargo C ON (C.Cargo = E.Cargo) SET E.IdCargo = C.IdCargo;
+UPDATE Empleados E JOIN Sector S ON (S.Sector = E.Sector) SET E.IdSector = S.IdSector;
+
+-- Eliminar las columnas de Cargo y Sector de la tabla empleados
+ALTER TABLE `Empleados` DROP `Cargo`;
+ALTER TABLE `Empleados` DROP `Sector`;
+
+-- Observar la tabla Empleados ya NORMALIZADA
+SELECT * from Empleados;
+
+
+
+-- NORMALIZAR la tabla Productos
+-- Generar una nueva tabla a partir de la tabla 'Productos' que contenga la entidad Tipo de Producto.
+DROP TABLE IF EXISTS `TipoProducto`;
+CREATE TABLE IF NOT EXISTS `TipoProducto` (
+  `IdTipoProducto` int(11) NOT NULL AUTO_INCREMENT,
+  `TipoProducto` varchar(50) NOT NULL,
+  PRIMARY KEY (`IdTipoProducto`)
+);
+
+-- Agregar una columna nueva llamada IdTipoProducto en la tabla Productos
+ALTER TABLE `Productos` ADD `IdTipoProducto` INT NOT NULL DEFAULT '0' AFTER `Precio`;
+
+-- Cargar los datos desde la Tabla Productos a la tabla recien creada
+INSERT INTO TipoProducto (TipoProducto) SELECT DISTINCT Tipo FROM Productos ORDER BY 1;
+
+-- Cargar los datos desde la tabla recien creada TipoProducto a la nueva columna IdTipoProducto
+UPDATE Productos P JOIN TipoProducto T ON (P.Tipo = T.TipoProducto) SET P.IdTipoProducto = T.IdTipoProducto;
+
+--Eliminar la columna Tipo
+ALTER TABLE `Productos` DROP `Tipo`; 
+
+-- Observar la tabla Productos ya NORMALIZADA
+SELECT * from Productos;
