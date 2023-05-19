@@ -4,7 +4,7 @@ Para este proyecto seras el especialista en datos de una compañía que se dedic
 El trabajo consiste en extraer la información de Excel, que generan los diferentes departamentos, para la creación de la base de datos de la empresa (ETL). A lo largo del proyecto te harás cargo de la información de la empresa y realizaras el proceso completo de captura, limpieza, análisis, diagnóstico, documentación, explotación y publicación de resultados.  
 
 
-## Objetivo 1 
+## Objetivo 1 Creación de base de datos e ingesta de datos
 La Dirección de Ventas ha solicitado las siguientes tablas a las diferentes areas de la empresa con el fin de que sean integradas en SQL. Es necesario realizar la captura de esos archivos e ingestarlos dentro de nuestra base de datos.
 
 * La tabla de puntos de venta propios, un Excel frecuentemente utilizado para contactar a cada sucursal, actualizada en 2021.
@@ -15,8 +15,8 @@ La Dirección de Ventas ha solicitado las siguientes tablas a las diferentes are
 * Las tablas de ventas, gastos y compras, tres archivos CSV generados a partir del sistema transaccional de la empresa.
 
 
-## Objetivo 2
-Con el fín de asegurarse de que la calidad de la información con la que se va a trabajar sea la óptima, es necesario realizar un EDA (Exploratory Data Analysis) el cuál debe tomar en cuenta los siguientes puntos:
+## Objetivo 2 EDA (Exploratory Data Analysis)
+Con el fín de asegurarse de que la calidad de la información con la que se va a trabajar sea la óptima, es necesario tomar en cuenta los siguientes puntos:
 
 1) ¿Qué tan actualizada está la información? 
 2) ¿Los datos están completos en todas las tablas?
@@ -26,7 +26,7 @@ Con el fín de asegurarse de que la calidad de la información con la que se va 
 6) Crear una nueva tabla llamada calendario y poblar esta tabla
 
 
-## Objetivo 3 
+## Objetivo 3 Limpieza y Normalización
 Realizar una liempieza y revisar los valores faltantes tomando en cuenta lo siguiente:
 
 1) Normalizar los nombres de los campos y colocar el tipo de dato adecuado para cada uno en cada una de las tablas. Descartar columnas que consideres que no tienen relevancia.
@@ -39,8 +39,7 @@ Realizar una liempieza y revisar los valores faltantes tomando en cuenta lo sigu
     - Generar una nueva tabla a partir de la tabla 'producto' que contenga la entidad Tipo de Producto.
 
 
-## Objetivo 4 
-### Evaluar la posibilidad de la apertura de una nueva sucursal.
+## Objetivo 4 Evaluar la posibilidad de la apertura de una nueva sucursal.
 
 1) Es necesario contar con una tabla de localidades del país y mejorar nuestros datos. 
 A partir de los datos en las tablas cliente, sucursal y proveedor hay que generar una tabla definitiva de Localidades y Provincias.
