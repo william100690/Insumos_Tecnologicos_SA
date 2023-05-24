@@ -222,10 +222,33 @@ ALTER TABLE `Sucursales`
 ALTER TABLE `Localidad`
   DROP `Provincia`;
 
-  -- Obsercar como resultaron las TABLESPACE
-  SELECT * FROM `Clientes`;
+  -- Obsercar como resultaron las tablas Clientes, Proveedores, Sucursales, Localidad y Provincia
+SELECT * FROM `Clientes`;
 SELECT * FROM `Proveedores`;
 SELECT * FROM `Sucursales`;
 SELECT * FROM `Localidad`;
 SELECT * FROM `Provincia`;
 
+
+-- Observar el total de clientes por Localidad
+SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Clientes from Clientes
+GROUP BY IdLocalidad ORDER BY Total_Clientes DESC;
+
+
+-- Observar el total de sucursales por Localidad, observamos que en la localida 207 hay 2 sucursales
+-- pero esta localidad no esta dentro del Top 5 en clientes
+SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Sucursales from Sucursales
+GROUP BY IdLocalidad ORDER BY Total_Sucursales DESC;
+
+-- Observar el total de clientes que hay en la localidad 207, nos damos cuenta que no hay clientes
+-- en esta Localidad
+SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Clientes from Clientes
+WHERE IdLocalidad = 207 GROUP BY IdLocalidad;
+SELECT * from Clientes WHERE IdLocalidad = 207;
+
+
+-- hacer un Join para observar mejor la información
+SELECT C.IdLocalidad, COUNT(C.IdLocalidad) as Total_Clientes, S.Total_Sucursales FROM Clientes C
+JOIN (SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Sucursales from Sucursales
+GROUP BY IdLocalidad ORDER BY Total_Sucursales DESC) S on C.IdLocalidad = S.IdLocalidad
+GROUP BY IdLocalidad ORDER BY Total_Clientes DESC;
