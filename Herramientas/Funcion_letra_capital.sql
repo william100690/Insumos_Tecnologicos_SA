@@ -1,5 +1,5 @@
 -- Homework.
-use Insumos_Tecnologicos_SA;
+use insumos_tecnologicos_sa;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
