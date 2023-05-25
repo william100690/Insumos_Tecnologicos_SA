@@ -1,11 +1,12 @@
 # Insumos_Tecnologicos_SA
+## Objetivo principal: Analizar la factibilidad de abrir una nueva sucursal
 
 Para este proyecto seras el especialista en datos de una compañía que se dedica a la venta de insumos tecnológicos. 
 El trabajo consiste en extraer la información de Excel, que generan los diferentes departamentos, para la creación de la base de datos de la empresa (ETL). A lo largo del proyecto te harás cargo de la información de la empresa y realizaras el proceso completo de captura, limpieza, análisis, diagnóstico, documentación, explotación y publicación de resultados.  
 
 
 ## Objetivo 1 Creación de base de datos e ingesta de datos
-La Dirección de Ventas ha solicitado las siguientes tablas a las diferentes areas de la empresa con el fin de que sean integradas en SQL. Es necesario realizar la captura de esos archivos e ingestarlos dentro de nuestra base de datos.
+Solicitar a las diferente areas de la empresa las siguientes tablas con el fin de que sean integradas en SQL. Es necesario realizar la captura de esos archivos e ingestarlos dentro de nuestra base de datos.
 
 * La tabla de puntos de venta propios, un Excel frecuentemente utilizado para contactar a cada sucursal, actualizada en 2021.
 * La tabla de empleados, un Excel mantenido por el personal administrativo de RRHH.
@@ -39,9 +40,14 @@ Realizar una liempieza y revisar los valores faltantes tomando en cuenta lo sigu
     - Generar una nueva tabla a partir de la tabla 'producto' que contenga la entidad Tipo de Producto.
 
 
-## Objetivo 4 Evaluar la posibilidad de la apertura de una nueva sucursal.
+## Objetivo 4 Creación de la tabla Localidades
 
 1) Es necesario contar con una tabla de localidades del país y mejorar nuestros datos. 
 A partir de los datos en las tablas cliente, sucursal y proveedor hay que generar una tabla definitiva de Localidades y Provincias.
 Utilizando la nueva tabla de Localidades controlar y corregir (Normalizar) los campos Localidad y Provincia de las tablas cliente, sucursal y proveedor.
 2) Es necesario discretizar el campo edad en la tabla cliente.
+
+
+## Objetivo 5 Mostrar los resultados del análisis
+
+1) Utilizar la herramienta Tableau y crear visualizaciones atracctivas y efectivas para comunicar los resultados del análisis de manera clara y comprensible para la dirección de la empresa.
