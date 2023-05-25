@@ -234,10 +234,14 @@ SELECT * FROM `Provincia`;
 SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Clientes from Clientes
 GROUP BY IdLocalidad ORDER BY Total_Clientes DESC;
 
+SELECT * from Clientes;
+
+SELECT * from Localidad;
 
 -- Observar el total de sucursales por Localidad, observamos que en la localida 207 hay 2 sucursales
 -- pero esta localidad no esta dentro del Top 5 en clientes
-SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Sucursales from Sucursales
+SELECT S.IdLocalidad, L.Localidad, COUNT(S.IdLocalidad) as Total_Sucursales from Sucursales S
+join Localidad L on S.IdLocalidad = L.IdLocalidad 
 GROUP BY IdLocalidad ORDER BY Total_Sucursales DESC;
 
 -- Observar el total de clientes que hay en la localidad 207, nos damos cuenta que no hay clientes
