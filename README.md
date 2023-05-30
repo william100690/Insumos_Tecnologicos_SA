@@ -51,3 +51,13 @@ Utilizando la nueva tabla de Localidades controlar y corregir (Normalizar) los c
 ## Objetivo 5 Mostrar los resultados del análisis
 
 1) Utilizar la herramienta Tableau y crear visualizaciones atracctivas y efectivas para comunicar los resultados del análisis de manera clara y comprensible para la dirección de la empresa.
+
+
+## Indicaciones de Gerencia
+Después de la 1er junta y para continuar con el análisis de factibilidad de una nueva sucursal, se establecen los siguientes objetivos
+
+## Objetivo 6
+ Obtener el (KPI) análisis de utilidad de las sucursales en la localidad en mar de plata a tra ves del tiempo para observar su tendencia
+
+ ## Objetivo 7
+  Obtener la utilidad de cada una de las sucursales así como el promedio general de todas y oberservar la posición de la suscursales de mar de plata respecto al promedio general
