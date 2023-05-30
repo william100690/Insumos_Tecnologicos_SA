@@ -231,7 +231,8 @@ SELECT * FROM `Provincia`;
 
 
 -- Observar el total de clientes por Localidad
-SELECT IdLocalidad, COUNT(IdLocalidad) as Total_Clientes from Clientes
+SELECT C.IdLocalidad, L.Localidad, COUNT(C.IdLocalidad) as Total_Clientes from Clientes C
+join Localidad L on C.IdLocalidad = L.IdLocalidad
 GROUP BY IdLocalidad ORDER BY Total_Clientes DESC;
 
 SELECT * from Clientes;
