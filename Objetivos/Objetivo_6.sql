@@ -17,21 +17,21 @@ SELECT * from sucursales where IdLocalidad = 55;
 SELECT * FROM gastos;
 Drop table if EXISTS Utilidad_mes;
 create table Utilidad_mes as;
-SELECT V.IdSucursal, year(V.Fecha) Anio, MONTH(V.Fecha) Mes, ROUND(sum(V.Precio * V.Cantidad),2) as Ventas, 
+SELECT V.IdSucursal, DATE_FORMAT(V.Fecha, '%Y-%m') as Fecha, ROUND(sum(V.Precio * V.Cantidad),2) as Ventas, 
 sum(G.Monto) as Gasto, ROUND(ROUND(sum(V.Precio * V.Cantidad),2) -  sum(G.Monto),2) as Utilidad_mes from ventas V
 JOIN gastos G on V.IdSucursal = G.IdSucursal
-GROUP BY(IdSucursal), year(Fecha), MONTH(Fecha)
-ORDER BY(IdSucursal), (year(Fecha));
+GROUP BY(IdSucursal), DATE_FORMAT(V.Fecha, '%Y-%m')
+ORDER BY(IdSucursal), DATE_FORMAT(V.Fecha, '%Y-%m');
 
 
 -- obtener el promedio de utilidad de todas las sucursales, por mes y crear una tabla
 DROP TABLE if EXISTS Utilidad_promedio;
 CREATE table Utilidad_promedio as;
-SELECT year(V.Fecha) Anio, MONTH(V.Fecha) Mes, 
+SELECT DATE_FORMAT(V.Fecha, '%Y-%m') as Fecha, 
 ROUND(ROUND((sum(V.Precio * V.Cantidad))/31,2) -  (sum(G.Monto))/31,2) as Utilidad_promedio from ventas V
 JOIN gastos G on V.IdSucursal = G.IdSucursal
-GROUP BY year(Fecha), MONTH(Fecha)
-ORDER BY (year(Fecha));
+GROUP BY DATE_FORMAT(V.Fecha, '%Y-%m')
+ORDER BY DATE_FORMAT(V.Fecha, '%Y-%m');
 
 
 
@@ -40,9 +40,9 @@ ORDER BY (year(Fecha));
 -- sucusal 1 que pertenece a la localida 55/Capital federal y crear una tabla
 DROP TABLE if EXISTS Utilidad_mes_21;
 CREATE TABLE Utilidad_mes_21 as;
-SELECT Um.IdSucursal, S.Sucursal, CONCAT(Um.Mes, Um.Anio) as Mes_Anio, Um.Utilidad_mes
+SELECT Um.IdSucursal, S.Sucursal, Um.Fecha, Um.Utilidad_mes
 from Utilidad_mes Um
-join Utilidad_promedio Up on Um.Anio = Up.Anio and Um.Mes = Up.Mes
+join Utilidad_promedio Up on Um.Fecha = Up.Fecha
 join sucursales S on Um.IdSucursal = S.IdSucursal
 where Um.IdSucursal = 21
 ORDER BY (Um.IdSucursal);
@@ -50,18 +50,18 @@ ORDER BY (Um.IdSucursal);
 SELECT * from sucursales;
 DROP TABLE if EXISTS Utilidad_mes_22;
 CREATE TABLE Utilidad_mes_22 as;
-SELECT Um.IdSucursal, S.Sucursal, CONCAT(Um.Mes, Um.Anio) as Mes_Anio, Um.Utilidad_mes
+SELECT Um.IdSucursal, S.Sucursal, Um.Fecha, Um.Utilidad_mes
 from Utilidad_mes Um
-join Utilidad_promedio Up on Um.Anio = Up.Anio and Um.Mes = Up.Mes
+join Utilidad_promedio Up on Um.Fecha = Up.Fecha
 join sucursales S on Um.IdSucursal = S.IdSucursal
 where Um.IdSucursal = 22
 ORDER BY (Um.IdSucursal);
 
 DROP TABLE if EXISTS Utilidad_mes_1;
 CREATE TABLE Utilidad_mes_1 as;
-SELECT Um.IdSucursal, S.Sucursal, CONCAT(Um.Mes, Um.Anio) as Mes_Anio, Um.Utilidad_mes
+SELECT Um.IdSucursal, S.Sucursal, Um.Fecha, Um.Utilidad_mes
 from Utilidad_mes Um
-join Utilidad_promedio Up on Um.Anio = Up.Anio and Um.Mes = Up.Mes
+join Utilidad_promedio Up on Um.Fecha = Up.Fecha
 join sucursales S on Um.IdSucursal = S.IdSucursal
 where Um.IdSucursal = 1
 ORDER BY (Um.IdSucursal);
