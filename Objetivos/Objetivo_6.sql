@@ -3,14 +3,13 @@ use insumos_tecnologicos_sa;
 SELECT * from ventas;
 -- Obtener las 2 sucursales que pertenecen a la localidad 207/ Mar del Plata
 SELECT * from sucursales where IdLocalidad = 207;
--- Id 21 y 22
+-- Id 21 sucursal Mdq1 
+-- Id 22 sucursal Mdq2
 
--- Obtener las 2 sucursales que pertenecen a la localidad 443/ Mendoza
-SELECT * from sucursales where IdLocalidad = 443;
--- Id 29 y 30
 
 SELECT * from sucursales where IdLocalidad = 55;
 -- Id 1,2,3,4,5,6,7,8,9,10
+-- Id 1, sucursal cabildo
 
 
 -- obtener el total de utilidad por mes, de cada sucursal y crear una tabla
