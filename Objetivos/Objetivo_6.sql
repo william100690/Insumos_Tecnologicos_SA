@@ -3,7 +3,7 @@ use insumos_tecnologicos_sa;
 SELECT * from ventas;
 -- Obtener las 2 sucursales que pertenecen a la localidad 207/ Mar del Plata
 SELECT * from sucursales where IdLocalidad = 207;
--- Id 21 sucursal Mdq1 
+-- Id 21 Mdq1 
 -- Id 22 sucursal Mdq2
 
 
