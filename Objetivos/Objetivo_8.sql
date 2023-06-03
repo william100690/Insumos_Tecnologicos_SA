@@ -50,7 +50,7 @@ SELECT V.IdCanal, Cv.Canal, DATE_FORMAT(V.Fecha, '%Y-%m') Fecha, COUNT(V.IdVenta
 round(sum(V.Cantidad * V.Precio),2) Ventas 
 FROM ventas V
 join canalesventas Cv on V.IdCanal = Cv.IdCanalVenta
-WHERE IdSucursal = 1
+WHERE IdSucursal = 21
 GROUP BY IdCanal, Cv.Canal, DATE_FORMAT(Fecha, '%Y-%m')
 ORDER BY DATE_FORMAT(Fecha, '%Y-%m'), IdCanal;
 
@@ -92,7 +92,7 @@ SELECT V.IdCanal, Cv.Canal, DATE_FORMAT(V.Fecha, '%Y-%m') Fecha, COUNT(V.IdVenta
 round(sum(V.Cantidad * V.Precio),2) Ventas 
 FROM ventas V
 join canalesventas Cv on V.IdCanal = Cv.IdCanalVenta
-WHERE IdSucursal = 1
+WHERE IdSucursal = 22
 GROUP BY IdCanal, Cv.Canal, DATE_FORMAT(Fecha, '%Y-%m')
 ORDER BY DATE_FORMAT(Fecha, '%Y-%m'), IdCanal;
 
