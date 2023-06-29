@@ -57,7 +57,25 @@ Utilizando la nueva tabla de Localidades controlar y corregir (Normalizar) los c
 Después de la 1er junta y para continuar con el análisis de factibilidad de una nueva sucursal, se establecen los siguientes objetivos
 
 ## Objetivo 6
- Obtener el (KPI) análisis de utilidad de las sucursales en la localidad en mar de plata a tra ves del tiempo para observar su tendencia
+Obtener el (KPI) análisis de utilidad de las sucursales en la localidad en mar de plata a tra ves del tiempo para observar su tendencia
 
- ## Objetivo 7
-  Obtener la utilidad de cada una de las sucursales así como el promedio general de todas y oberservar la posición de la suscursales de mar de plata respecto al promedio general
+## Objetivo 7
+Obtener la utilidad de cada una de las sucursales así como el promedio general de todas y oberservar la posición de la suscursales de mar de plata respecto al promedio general
+
+## Objetivo 8
+Obtener la relación de ventas por canal de ventas, es decir por cual canal de ventas vendemos mas y cual vendemos menos, para las sucursales con Id 1, 21 y 22 y presentar esta información de forma mensual
+
+## Objetivo 9
+Obtener la relación de ventas por canal de ventas, es decir por cual canal de ventas vendemos mas y cual vendemos menos, de forma global incluyendo todas las sucursales y presentarlo de forma mensual
+
+
+## Objetivo principal: Crear un modelo de predicción para las ventas del siguiente año
+
+## Objetivo 1
+Analizar el comportamiento de las ventas de manera global y buscar una tendencia
+
+## Objetivo 2
+Analizar el comportamiento de las ventas de manera individual por canal de venta y buscar una tendencia
+
+## Objetivo 3 
+Crear un modelo de predicción y mostrar las ventas para el siguiente año
